@@ -1,0 +1,48 @@
+
+.part{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-self: center;
+    margin: 10px;
+}
+
+h1{
+    text-align: center;
+    color: #153243;
+}
+span{
+    text-transform: uppercase;
+    color:gray;
+    
+}
+.structure{
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    
+    
+    margin: 20px;
+    padding: 50px;
+   
+
+    
+    justify-content:  center;
+}
+label ,input[type="text"] ,input[type="number"] {
+    width: 200px;
+    align-self: center;
+    color: #41414E;
+    
+}
+.buttons{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+td th{
+    color: #41414E;
+}
+.table-setting{
+    margin: 20px;
+}

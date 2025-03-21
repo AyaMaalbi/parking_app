@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking System</title>
+    <link rel="stylesheet" href="parking.css">
+    <link rel="stylesheet" href="bootstrap-5.3.2-dist/css/bootstrap.css">
+</head>
+<body>
+    <h1 id="title"><span >parking</span> System</h1>
+    
+    <div id="cas-3" class="structure">
+            <div>
+                <div class="part">
+                    <label for="">* Identifiant parking :</label>
+                    <input class="form-control"  type="text" value="" id="idPark" >
+                </div>
+                <div class="part">
+                    <label for="">* Nom du parking :</label>
+                    <input class="form-control"  type="text" value="" id="nomPark">
+                </div>
+                <div class="part">
+                    <label for="">* Adresse du parking :</label>
+                    <input class="form-control"  type="text" value="" id="AdressePark">
+                </div>
+           </div>
+           <div>
+              <div class="part">
+                 <label for="">* Ville :</label>
+                 <input class="form-control"  type="text" value="" id="villePark">
+              </div>
+              <div class="part">
+                 <label for="">* Nombre de places disponibles :</label>
+                 <input class="form-control"  type="number" value="" id="nbPlace">
+              </div>
+              <div class="part">
+                 <label for="">* Personne responsable du parking :</label>
+                 <input class="form-control"  type="text" value="" id="responsable">
+              </div>
+            </div>
+    </div>
+    <p style="margin: 10px; color: red; ">tous les champs sont obligatoires !</p>
+    <div class="buttons">
+        <button class="btn btn-secondary" onclick="ajouter()">Ajouter le parking</button>
+        <button class="btn btn-secondary" onclick="chercher()">chercher  un parking</button>
+        <button class="btn btn-secondary" onclick="modifier()">Modifier le parking</button>
+        
+        <button class="btn btn-secondary" onclick="download()">enregister dans  la base de données</button>
+        <button class="btn btn-secondary" onclick="lire()">lire  depuis la base de données</button>
+        <button class="btn btn-secondary" onclick="annuler()">annuler</button>
+    </div>
+    <div id="cas-1" class="table-setting">
+        <table id="table" border="1" class="table table-bordered border-secondary "></table>
+    </div>
+    <div id="cas-2" class="table-setting">
+        <table id="table2" border="1" class="table table-bordered border-secondary  "></table>
+    </div>
+
+    
+    
+
+
+    
+    
+    <script>
+        
+        class  Parking {
+            constructor(idPark, nomPark, AdressePark, ville, nbPlace, responsable) {
+                this.idPark = idPark;
+                this.nomPark= nomPark;
+                this.AdressePark =AdressePark ; 
+                this.ville = ville ;
+                this.nbPlace = nbPlace ;
+                this.responsable = responsable;
+            }
+        }
+        // class veucule{
+        //     constructor(type , marque , modele){
+        //         this.type = type 
+        //         this.marque = marque 
+        //         this.modele = modele
+        //     }
+        // }
+
+        parkings = []
+        j=0
+
+        function ajouter(){
+            
+            parkg = new Parking (document.getElementById("idPark").value,document.getElementById("nomPark").value,document.getElementById("AdressePark").value,document.getElementById("villePark").value,document.getElementById("nbPlace").value,document.getElementById("responsable").value)
+            parkings.push(parkg)
+            enregister(parkings)
+        }
+          
+        function enregister(list){
+            
+            s = "<tr><th>identifiant</th><th>nom de parking</th><th>Adresse du parking</th><th>Ville</th><th>Nombre de places disponibles</th><th>Personne responsable du parking</th><th>edite</th><th>afficher</th><th>supprimer</th></tr>"
+            for (i=0 ; i<list.length  ; i++){
+                s+=`<tr><td>${list[i].idPark}</td><td>${list[i].nomPark}</td><td>${list[i].AdressePark}</td><td>${list[i].ville}</td><td>${list[i].nbPlace}</td><td>${list[i].responsable}</td><td><button class="btn btn-outline-secondary" onclick='edite(${i})'>edite</button></td><td><button class="btn btn-outline-secondary" onclick='afficher(${i})'>afficher</button></td><td><button class="btn btn-outline-secondary" onclick='supprimer(${i})'>supprimer</button></tr>`
+            }
+           table.innerHTML= s
+        }
+
+        function edite(i){
+            
+            j = i
+    
+            document.getElementById("idPark").value = parkings[i].idPark
+            document.getElementById("nomPark").value = parkings[i].nomPark
+            document.getElementById("AdressePark").value = parkings[i].AdressePark
+            document.getElementById("villePark").value = parkings[i].ville
+            document.getElementById("nbPlace").value = parkings[i].nbPlace
+            document.getElementById("responsable").value = parkings[i].responsable
+            
+
+        }
+
+        function supprimer(i){
+            confirm("supprimer")
+            parkings.splice(i ,1);
+            enregister(parkings)
+           
+            
+            
+            
+        }
+
+        function chercher(){
+            a = prompt("donner id du parking a chercher")
+            p = []
+            p[0] = parkings.find(x=>  x.idPark ==a)
+
+            if(p != undefined ){
+               enregister(p)
+            }else{alert("ce parking n'existe pas")}
+        }
+
+        function afficher(i){
+            // document.getElementById("cas-1").style.display="none"
+            // document.getElementById("cas-2").style.display="block"
+
+            // enregisterVEC(vehicules)
+            
+            details = `
+            Identifiant parking :${parkings[i].idPark}\n
+            Nom du parking :${parkings[i].nomPark}\n
+            Adresse du parking :${parkings[i].AdressePark}\n
+            Ville :${parkings[i].ville}\n
+            Nombre de places disponibles :${parkings[i].nbPlace}\n
+            Personne responsable du parking :${parkings[i].responsable}` 
+            alert(details)
+
+
+                   
+        }
+
+        function enregisterVEC(list){
+
+            b = "<tr><th>type</th><th>marque</th><th>modele</th></tr>"
+            for (i=0 ; i<list.length  ; i++){
+                b+=`<tr><td>${list[i].type}</td><td>${list[i].marque}</td><td>${list[i].model}</td></tr>`
+            }
+           table2.innerHTML= b
+
+        }
+
+        function modifier(){
+            parkings[j].idPark = document.getElementById('idPark').value
+            parkings[j].nomPark = document.getElementById('nomPark').value
+            parkings[j].AdressePark = document.getElementById('AdressePark').value
+            parkings[j].ville = document.getElementById('villePark').value
+            parkings[j].nbPlace = Number(document.getElementById('nbPlace').value)
+            parkings[j].responsable = document.getElementById('responsable').value
+            enregister(parkings)
+
+        }
+
+        function lire(){
+            lire = localStorage.getItem('parkings')
+            parkings = JSON.parse(lire)
+            enregister(parkings)
+            
+           
+        }
+
+        function download(){
+            stock = JSON.stringify(parkings)
+            localStorage.setItem('parkings', stock)
+        }
+
+        function annuler(){
+            location.reload()
+        }
+
+
+
+    </script>
+   
+</body>
+</html>
